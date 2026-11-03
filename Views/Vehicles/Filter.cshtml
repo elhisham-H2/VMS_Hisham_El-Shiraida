@@ -1,0 +1,92 @@
+@model IEnumerable<VMS_Hisham_El_Shiraida.Models.Vehicle>
+
+@{
+    ViewData["Title"] = "Page 4: Filter by Type";
+    var selectedType = ViewBag.SelectedType as VMS_Hisham_El_Shiraida.Models.VehicleType?;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h1 class="page-title">Page 4: Filter by Type</h1>
+        <p class="page-subtitle">Select a vehicle type to search and display matching inventory.</p>
+    </div>
+    <div>
+        <a asp-controller="Home" asp-action="Index" class="back-home-link">
+            &larr; Back to Home
+        </a>
+    </div>
+</div>
+
+<div class="card card-custom mb-4">
+    <form asp-action="Filter" method="get" class="row g-3 align-items-end">
+        <div class="col-md-6">
+            <label for="selectedType" class="form-label fw-semibold">Select Vehicle Type:</label>
+            <select id="selectedType" name="selectedType" class="form-select" asp-items="Html.GetEnumSelectList<VMS_Hisham_El_Shiraida.Models.VehicleType>()">
+                <option value="">-- Choose a Vehicle Type --</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <button type="submit" class="btn btn-primary w-100">
+                🔍 Search
+            </button>
+        </div>
+        <div class="col-md-3">
+            <a asp-action="Filter" class="btn btn-outline-secondary w-100">
+                Reset Filter
+            </a>
+        </div>
+    </form>
+</div>
+
+@if (selectedType.HasValue)
+{
+    if (Model != null && Model.Any())
+    {
+        <div class="alert alert-success d-flex justify-content-between align-items-center">
+            <span>Found <strong>@Model.Count()</strong> vehicle(s) matching type: <strong>@selectedType.Value</strong></span>
+            <span class="badge bg-success">Filtered by LINQ</span>
+        </div>
+
+        <div class="table-responsive table-custom">
+            <table class="table table-hover align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Make</th>
+                        <th>Purchase Date</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="fw-semibold">@item.Make</td>
+                            <td>@item.PurchaseDate.ToString("yyyy-MM-dd")</td>
+                            <td class="fw-bold text-success">@item.Price.ToString("C")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning">
+            No vehicles found for type <strong>@selectedType.Value</strong>.
+        </div>
+    }
+}
+else
+{
+    <div class="card card-custom text-center py-5 text-muted">
+        <h5>Please select a vehicle type above and click <strong>Search</strong> to view matching records.</h5>
+        <p class="small mb-0">Per Requirement R10, results will display only Make, Purchase Date, and Price.</p>
+    </div>
+}
+
+<div class="mt-4 text-end">
+    <a asp-controller="Home" asp-action="Index" class="back-home-link">
+        &larr; Back to Home
+    </a>
+</div>
+

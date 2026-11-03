@@ -1,40 +1,72 @@
 @model IEnumerable<VMS_Hisham_El_Shiraida.Models.Vehicle>
 
 @{
-    ViewData["Title"] = "Vehicles";
+    ViewData["Title"] = "Page 3: All Vehicles";
 }
 
-<h1>Vehicles</h1>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h1 class="page-title">Page 3: All Vehicles</h1>
+        <p class="page-subtitle">Inventory list showing all vehicles stored in the database.</p>
+    </div>
+    <div class="d-flex gap-2">
+        <a asp-action="Create" class="btn btn-primary">
+            ➕ Add New Vehicle
+        </a>
+        <a asp-controller="Home" asp-action="Index" class="back-home-link">
+            &larr; Back to Home
+        </a>
+    </div>
+</div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>@Html.DisplayNameFor(model => model.Make)</th>
-            <th>@Html.DisplayNameFor(model => model.Type)</th>
-            <th>@Html.DisplayNameFor(model => model.PurchaseDate)</th>
-            <th>@Html.DisplayNameFor(model => model.Year)</th>
-            <th>@Html.DisplayNameFor(model => model.Price)</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+<div class="table-responsive table-custom">
+    <table class="table table-hover align-middle mb-0">
+        <thead>
             <tr>
-                <td>@Html.DisplayFor(modelItem => item.Make)</td>
-                <td>@Html.DisplayFor(modelItem => item.Type)</td>
-                <td>@Html.DisplayFor(modelItem => item.PurchaseDate)</td>
-                <td>@Html.DisplayFor(modelItem => item.Year)</td>
-                <td>@Html.DisplayFor(modelItem => item.Price)</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.VehicleId">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.VehicleId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.VehicleId">Delete</a>
-                </td>
+                <th>@Html.DisplayNameFor(model => model.VehicleId)</th>
+                <th>@Html.DisplayNameFor(model => model.Make)</th>
+                <th>@Html.DisplayNameFor(model => model.Type)</th>
+                <th>@Html.DisplayNameFor(model => model.PurchaseDate)</th>
+                <th>@Html.DisplayNameFor(model => model.Year)</th>
+                <th>@Html.DisplayNameFor(model => model.Price)</th>
+                <th class="text-end">Actions</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                var badgeClass = item.Type switch
+                {
+                    VMS_Hisham_El_Shiraida.Models.VehicleType.Truck => "badge-type-truck",
+                    VMS_Hisham_El_Shiraida.Models.VehicleType.Sedan => "badge-type-sedan",
+                    VMS_Hisham_El_Shiraida.Models.VehicleType.Van => "badge-type-van",
+                    VMS_Hisham_El_Shiraida.Models.VehicleType.SUV => "badge-type-suv",
+                    VMS_Hisham_El_Shiraida.Models.VehicleType.Coupe => "badge-type-coupe",
+                    _ => "bg-secondary text-white"
+                };
+
+                <tr>
+                    <td class="fw-bold text-muted">#@item.VehicleId</td>
+                    <td class="fw-semibold">@item.Make</td>
+                    <td>
+                        <span class="badge-pill-custom @badgeClass">@item.Type</span>
+                    </td>
+                    <td>@item.PurchaseDate.ToString("yyyy-MM-dd")</td>
+                    <td>@item.Year</td>
+                    <td class="fw-bold text-success">@item.Price.ToString("C")</td>
+                    <td class="text-end btn-action-group">
+                        <a asp-action="Details" asp-route-id="@item.VehicleId" class="btn btn-outline-info">Details</a>
+                        <a asp-action="Edit" asp-route-id="@item.VehicleId" class="btn btn-outline-primary">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@item.VehicleId" class="btn btn-outline-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="mt-4 text-end">
+    <a asp-controller="Home" asp-action="Index" class="back-home-link">
+        &larr; Back to Home
+    </a>
+</div>

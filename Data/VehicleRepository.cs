@@ -26,7 +26,8 @@ namespace VMS_Hisham_El_Shiraida.Data
 
         public async Task AddVehicleAsync(Vehicle vehicle)
         {
-            await _context.Vehicles.AddAsync(vehicle);
+            vehicle.VehicleId = 0;
+            _context.Vehicles.Add(vehicle);
             await _context.SaveChangesAsync();
         }
 

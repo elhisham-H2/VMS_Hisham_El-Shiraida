@@ -1,0 +1,112 @@
+@model IEnumerable<VMS_Hisham_El_Shiraida.Models.Vehicle>?
+
+@{
+    ViewData["Title"] = "Page 5: Price Search";
+    var minPrice = ViewBag.MinPrice as decimal?;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h1 class="page-title">Page 5: Price Search</h1>
+        <p class="page-subtitle">Find vehicles with a price greater than the entered amount, sorted highest to lowest.</p>
+    </div>
+    <div>
+        <a asp-controller="Home" asp-action="Index" class="back-home-link">
+            &larr; Back to Home
+        </a>
+    </div>
+</div>
+
+<div class="card card-custom mb-4">
+    <form asp-action="PriceSearch" method="get" class="row g-3 align-items-end">
+        <div class="col-md-6">
+            <label for="minPrice" class="form-label fw-semibold">Enter Minimum Price ($):</label>
+            <div class="input-group">
+                <span class="input-group-text">$</span>
+                <input id="minPrice" name="minPrice" type="number" step="0.01" min="0" max="500000" 
+                       class="form-control" placeholder="e.g. 35000" value="@(minPrice.HasValue ? minPrice.Value.ToString("F2") : "")" required />
+            </div>
+        </div>
+        <div class="col-md-3">
+            <button type="submit" class="btn btn-primary w-100">
+                💰 Search by Price
+            </button>
+        </div>
+        <div class="col-md-3">
+            <a asp-action="PriceSearch" class="btn btn-outline-secondary w-100">
+                Reset Search
+            </a>
+        </div>
+    </form>
+</div>
+
+@if (minPrice.HasValue)
+{
+    if (Model != null && Model.Any())
+    {
+        <div class="alert alert-success d-flex justify-content-between align-items-center">
+            <span>Found <strong>@Model.Count()</strong> vehicle(s) with price greater than <strong>@minPrice.Value.ToString("C")</strong> (sorted highest to lowest)</span>
+            <span class="badge bg-success">Sorted via LINQ OrderByDescending</span>
+        </div>
+
+        <div class="table-responsive table-custom">
+            <table class="table table-hover align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Vehicle ID</th>
+                        <th>Make</th>
+                        <th>Type</th>
+                        <th>Purchase Date</th>
+                        <th>Year</th>
+                        <th>Price (Highest to Lowest)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        var badgeClass = item.Type switch
+                        {
+                            VMS_Hisham_El_Shiraida.Models.VehicleType.Truck => "badge-type-truck",
+                            VMS_Hisham_El_Shiraida.Models.VehicleType.Sedan => "badge-type-sedan",
+                            VMS_Hisham_El_Shiraida.Models.VehicleType.Van => "badge-type-van",
+                            VMS_Hisham_El_Shiraida.Models.VehicleType.SUV => "badge-type-suv",
+                            VMS_Hisham_El_Shiraida.Models.VehicleType.Coupe => "badge-type-coupe",
+                            _ => "bg-secondary text-white"
+                        };
+
+                        <tr>
+                            <td class="fw-bold text-muted">#@item.VehicleId</td>
+                            <td class="fw-semibold">@item.Make</td>
+                            <td>
+                                <span class="badge-pill-custom @badgeClass">@item.Type</span>
+                            </td>
+                            <td>@item.PurchaseDate.ToString("yyyy-MM-dd")</td>
+                            <td>@item.Year</td>
+                            <td class="fw-bold text-success fs-6">@item.Price.ToString("C")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning">
+            ⚠️ No vehicles match your criteria. There are no vehicles with a price greater than <strong>@minPrice.Value.ToString("C")</strong>.
+        </div>
+    }
+}
+else
+{
+    <div class="card card-custom text-center py-5 text-muted">
+        <h5>Enter a price threshold above and click <strong>Search by Price</strong> to view matching vehicles.</h5>
+        <p class="small mb-0">Per Requirement R11, results will be ordered from highest to lowest price.</p>
+    </div>
+}
+
+<div class="mt-4 text-end">
+    <a asp-controller="Home" asp-action="Index" class="back-home-link">
+        &larr; Back to Home
+    </a>
+</div>
+

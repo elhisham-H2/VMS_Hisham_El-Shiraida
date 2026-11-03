@@ -5,8 +5,20 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+{
+    if (OperatingSystem.IsWindows())
+    {
+        options.UseSqlServer(connectionString);
+    }
+    else
+    {
+        options.UseSqlite(builder.Configuration.GetConnectionString("SqliteConnection")
+            ?? "Data Source=VMS_Hisham_El-Shiraida.db");
+    }
+});
 
 builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
 
@@ -18,7 +30,6 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();

@@ -8,6 +8,8 @@ namespace VMS_Hisham_El_Shiraida.Models
     public class Vehicle
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Display(Name = "Vehicle ID")]
         public int VehicleId { get; set; }
 
         [Required(ErrorMessage = "Make is required.")]

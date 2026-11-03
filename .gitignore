@@ -399,3 +399,10 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# Local temporary cache/runtime files
+.aspnet/
+.local/
+Library/
+*.db-shm
+*.db-wal

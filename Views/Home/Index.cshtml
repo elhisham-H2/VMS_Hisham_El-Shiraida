@@ -1,8 +1,61 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+@{
+    ViewData["Title"] = "Home - Vehicle Management System";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="hero-card">
+    <div class="mb-3">
+        <span class="badge bg-primary px-3 py-2 fs-6 rounded-pill">Sheridan College &bull; Assignment 2</span>
+    </div>
+    <h1 class="hero-title">Vehicle Management System (VMS)</h1>
+    <p class="lead text-muted mt-2">
+        A complete inventory management application built with ASP.NET Core MVC &amp; Entity Framework Core.
+    </p>
+
+    <!-- Student Metadata Card (R7 Requirements) -->
+    <div class="student-meta-card text-start">
+        <div class="row g-3">
+            <div class="col-sm-6">
+                <strong>Course Code:</strong> PROG30000 Enterprise Software Systems
+            </div>
+            <div class="col-sm-6">
+                <strong>Topic:</strong> Vehicle Management System (VMS)
+            </div>
+            <div class="col-sm-6">
+                <strong>Student Name:</strong> Hisham El-Shiraida
+            </div>
+            <div class="col-sm-6">
+                <strong>Student Number:</strong> 991750966
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Navigation Tiles to the Other Four Pages (R7 Requirements) -->
+    <h5 class="fw-bold text-dark mt-4 mb-2">Application Navigation</h5>
+    <p class="text-muted small">Select any page below or use the top navigation bar to explore the application.</p>
+
+    <div class="nav-tile-grid">
+        <a asp-controller="Vehicles" asp-action="Create" class="nav-tile">
+            <div class="tile-icon">➕</div>
+            <div class="tile-title">Page 2: Add Vehicle</div>
+            <div class="tile-desc">Add a new vehicle with validation and dropdown selection.</div>
+        </a>
+
+        <a asp-controller="Vehicles" asp-action="Index" class="nav-tile">
+            <div class="tile-icon">📋</div>
+            <div class="tile-title">Page 3: All Vehicles</div>
+            <div class="tile-desc">Full CRUD operations: View, Edit, Details, and Delete vehicles.</div>
+        </a>
+
+        <a asp-controller="Vehicles" asp-action="Filter" class="nav-tile">
+            <div class="tile-icon">🔍</div>
+            <div class="tile-title">Page 4: Filter by Type</div>
+            <div class="tile-desc">Filter vehicles by type using LINQ queries.</div>
+        </a>
+
+        <a asp-controller="Vehicles" asp-action="PriceSearch" class="nav-tile">
+            <div class="tile-icon">💰</div>
+            <div class="tile-title">Page 5: Price Search</div>
+            <div class="tile-desc">Search vehicles priced above a threshold, sorted high-to-low.</div>
+        </a>
+    </div>
 </div>

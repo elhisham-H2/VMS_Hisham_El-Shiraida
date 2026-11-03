@@ -16,6 +16,13 @@ namespace VMS_Hisham_El_Shiraida.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<Vehicle>(entity =>
+            {
+                entity.ToTable("VehicleInfo");
+                entity.HasKey(e => e.VehicleId);
+                entity.Property(e => e.VehicleId).ValueGeneratedOnAdd();
+            });
+
             modelBuilder.Entity<Vehicle>().HasData(
                 new Vehicle { VehicleId = 1, Make = "Ford F-150", Type = VehicleType.Truck, PurchaseDate = new DateTime(2021, 3, 15), Year = 2021, Price = 42500.00m },
                 new Vehicle { VehicleId = 2, Make = "Toyota Camry", Type = VehicleType.Sedan, PurchaseDate = new DateTime(2020, 7, 22), Year = 2020, Price = 27800.00m },

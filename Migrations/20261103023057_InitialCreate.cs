@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -17,8 +17,9 @@ namespace VMS_Hisham_El_Shiraida.Migrations
                 name: "VehicleInfo",
                 columns: table => new
                 {
-                    VehicleId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    VehicleId = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1")
+                        .Annotation("Sqlite:Autoincrement", true),
                     Make = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Type = table.Column<int>(type: "int", nullable: false),
                     PurchaseDate = table.Column<DateTime>(type: "datetime2", nullable: false),
